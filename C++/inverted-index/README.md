@@ -49,40 +49,6 @@ https://en.wikipedia.org/wiki/Inverted_index
 Пример:
 Поиск фразы '"early strategy dating"' в документах из предыдущего примера будет давать второй документ.
 
-### Постановка задачи
-Для простоты будем работать с индексом в памяти, без сохранения на диск.
-
-Вам предлагается реализовать такой интерфейс:
-```c++
-class Searcher
-{
-public:
-    using Filename = std::string; // or std::filesystem::path
-
-    // index modification
-    void add_document(const Filename & filename);
-
-    void remove_document(const Filename & filename);
-
-    // queries
-    class DocIterator
-    {
-    public:
-        using value_type = const Filename;
-        ...
-    };
-
-    class BadQuery : public std::exception
-    {
-        ...
-    };
-
-    std::pair<DocIterator, DocIterator> search(const std::string & query) const;
-};
-```
-
-* Допускается для имён файлов вместо `std::string` использовать `std::filesystem::path`.
-
 #### Модификация индекса
 Возможны две операции, меняющие индекс:
 * Добавление документа - входными данными являются имя файла и поток ввода, из которого требуется прочитать содержимое файла.
