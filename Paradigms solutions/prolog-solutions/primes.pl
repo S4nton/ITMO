@@ -1,6 +1,5 @@
-composite(1).
-	prime(2).
-	prime(N) :- N > 2, \+ composite(N).
+prime(2).
+prime(N) :- N > 2, \+ composite(N).
 
 fillAdd(Now, Max, Plus) :-
 	Now =< Max,
@@ -26,7 +25,7 @@ getDivs(N, DivNow, [N]) :- DivNow * DivNow > N, !.
 
 getDivs(N, DivNow, [DivNow | T]) :-
 	0 is mod(N, DivNow),
-	NewN is div(N, DivNow),
+	NewN is N // DivNow,
 	getDivs(NewN, DivNow, T).
 
 getDivs(N, DivNow, [H | T]) :-
@@ -73,8 +72,10 @@ perDivs([H | T], [H1 | T1], R) :-
 gcd(1, _, 1) :- !.
 gcd(_, 1, 1) :- !.
 
+get_pd(A, B, RA, RB) :-
+	prime_divisors(A, RA),
+ 	prime_divisors(B, RB).
+
 gcd(A, B, GCD) :-
- 	prime_divisors(A, RA),
- 	prime_divisors(B, RB),
- 	perDivs(RA, RB, R),
- 	GCD = R.
+ 	get_pd(A, B, RA, RB),
+ 	perDivs(RA, RB, GCD).
